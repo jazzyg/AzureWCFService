@@ -19,7 +19,16 @@ namespace WCFServiceWebRole
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped)]
         NotesData[] GetNotes(string userid);
-        //string GetNotes(string userid);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "getnote/{note}",
+            Method = "GET",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped)]
+        //NotesData GetSingNotes(string userid, string note);
+        NotesData[] GetNote(string note);
+
 
         [OperationContract]
         [WebInvoke(UriTemplate = "getsingnotes/{userid}/{note}",
@@ -28,7 +37,7 @@ namespace WCFServiceWebRole
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped)]
         //NotesData GetSingNotes(string userid, string note);
-        string GetSingNotes(string userid, string note);
+        NotesData[] GetSingNotes(string userid, string note);
 
 
         [OperationContract]
@@ -40,20 +49,20 @@ namespace WCFServiceWebRole
         string addnote(string userid, string note);
 
         [OperationContract]
-        [WebInvoke(UriTemplate = "deletenote/{userid}/{note}",
+        [WebInvoke(UriTemplate = "deletenote/{note}",
                     Method = "POST",
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     BodyStyle = WebMessageBodyStyle.Wrapped)]
-        bool deletenote(string userid, string note);
+        bool deletenote(string note);
 
         [OperationContract]
-        [WebInvoke(UriTemplate = "updatenote/{userid}/{note}",
+        [WebInvoke(UriTemplate = "updatenote/{note}",
                     Method = "POST",
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     BodyStyle = WebMessageBodyStyle.Wrapped)]
-        bool updatenote(string userid, string note);
+        bool updatenote(string note);
 
 
 
