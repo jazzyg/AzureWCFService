@@ -33,7 +33,6 @@ namespace WCFServiceWebRole
             NotesData results = (NotesData)j.Deserialize(note, typeof(NotesData));
 
 
-
             serverResponse sr = new serverResponse();
             try
             {
