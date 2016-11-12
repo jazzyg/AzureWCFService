@@ -46,7 +46,7 @@ namespace WCFServiceWebRole
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     BodyStyle = WebMessageBodyStyle.Wrapped)]
-        string addnote(string userid, string note);
+        serverResponse addnote(string userid, string note);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "deletenote/{note}",

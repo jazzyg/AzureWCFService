@@ -10,6 +10,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web.Script.Serialization;
 
 namespace WCFServiceWebRole
 {
@@ -20,16 +21,50 @@ namespace WCFServiceWebRole
     public class NotesService : INotesService
     {
     
-        string INotesService.addnote(string userid, string note)
+        serverResponse INotesService.addnote(string userid, string note)
         {
-            //NotesDbEntities.InsertData(userid, note);
 
-            throw new NotImplementedException();
+            //MemoryStream stream1 = new MemoryStream();
+            //stream1.Position = 0;
+            //DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(NotesData));
+            //var results = (NotesData)ser.ReadObject(stream1);
+
+            JavaScriptSerializer j = new JavaScriptSerializer();
+            NotesData results = (NotesData)j.Deserialize(note, typeof(NotesData));
+
+
+
+            serverResponse sr = new serverResponse();
+            try
+            {
+                
+                using (var entities = new NotesDbEntities())
+                {
+                    entities.NotesDatas.Add(results);
+                    entities.SaveChanges();
+
+                    sr.Status = "OK";
+                    sr.note.GuidID = results.GuidID;
+                    sr.note.UserID = userid;
+                    sr.note.Createdate = results.Createdate;
+                    sr.note.Notes = results.Notes;
+                    sr.note.UpdateDate = results.UpdateDate;
+
+
+                }
+                return sr;
+            }
+            catch (Exception ex)
+            {
+                sr.Status = "ERROR";
+                return sr;
+            }
         }
 
         bool INotesService.deletenote(string note)
         {
-            throw new NotImplementedException();
+            
+            return true;
         }
 
         bool INotesService.updatenote( string note)
@@ -169,9 +204,5 @@ namespace WCFServiceWebRole
             return jsonResult.ToString();
         }
 
-
-       
-
-     
     }
 }
