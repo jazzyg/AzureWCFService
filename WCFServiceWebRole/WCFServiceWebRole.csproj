@@ -172,6 +172,7 @@
     </Compile>
     <Compile Include="INotesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="serverResponse.cs" />
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
