@@ -32,12 +32,12 @@ namespace WCFServiceWebRole
 
 
         [OperationContract]
-        [WebInvoke(UriTemplate = "addnote/{userid}",
+        [WebInvoke(UriTemplate = "addnote/{userid}/{note}",
                     Method = "POST",
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     BodyStyle = WebMessageBodyStyle.Wrapped)]
-        string addnote(NotesData note);
+        string addnote(string userid, string note);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "deletenote/{userid}/{note}",
@@ -53,31 +53,9 @@ namespace WCFServiceWebRole
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     BodyStyle = WebMessageBodyStyle.Wrapped)]
-        bool updatenote(NotesData note);
+        bool updatenote(string userid, string note);
 
-        [OperationContract]
-        [WebInvoke(UriTemplate = "getContactNotes/{userid}",
-            Method = "GET",
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.Wrapped)]
-        List<ContactData> getContactNotes(string userid);
 
-        [OperationContract]
-        [WebInvoke(UriTemplate = "getSingContactNote/{userid}/{note}",
-           Method = "GET",
-           RequestFormat = WebMessageFormat.Json,
-           ResponseFormat = WebMessageFormat.Json,
-           BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ContactData getSingContactNote(string userid, string note);
-
-        [OperationContract]
-        [WebInvoke(UriTemplate = "addContactNote",
-                    Method = "POST",
-                    RequestFormat = WebMessageFormat.Json,
-                    ResponseFormat = WebMessageFormat.Json,
-                    BodyStyle = WebMessageBodyStyle.Wrapped)]
-        bool addContactNote(ContactData note);
 
         //[OperationContract]
         //string GetData(int value);

@@ -19,32 +19,23 @@ namespace WCFServiceWebRole
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class NotesService : INotesService
     {
-        public bool addContactNote(ContactData note)
+    
+        string INotesService.addnote(string userid, string note)
         {
             throw new NotImplementedException();
         }
 
-        public bool addnote(NotesData note)
-        {
-            MemoryStream stream1 = new MemoryStream();
-            stream1.Position = 0;
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(NotesData));
-            
-            var results = (NotesData)ser.ReadObject(stream1);
-
-            //save to database
-
-            return true;
-        }
-
-        public List<ContactData> getContactNotes(string userid)
+        bool INotesService.deletenote(string userid, string note)
         {
             throw new NotImplementedException();
         }
 
-        //public List<NotesData> GetNotes(string userid = "")
-
-        public NotesData[] GetNotes(string userid = "")
+        bool INotesService.updatenote(string userid, string note)
+        {
+            throw new NotImplementedException();
+        }
+       
+        NotesData[] INotesService.GetNotes(string userid)
         {
             if (userid == "") userid = "test11@test.com";
             using (var entities = new NotesDbEntities())
@@ -53,7 +44,7 @@ namespace WCFServiceWebRole
             }
 
         }
-        public string GetNotesold(string userid = "")
+        string GetNotesold(string userid)
         {
             if (userid == "") userid = "test11@test.com";
             //var con = ConfigurationManager.ConnectionStrings["Yourconnection"].ToString();
@@ -109,12 +100,8 @@ namespace WCFServiceWebRole
             return jsonResult.ToString();
         }
 
-        public ContactData getSingContactNote(string userid, string note)
-        {
-            throw new NotImplementedException();
-        }
 
-        public string GetSingNotes(string userid, string note)
+        string INotesService.GetSingNotes(string userid, string note)
         {
             
             if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(note)) return "[invalid input]";
@@ -161,44 +148,6 @@ namespace WCFServiceWebRole
 
         }
 
-        bool INotesService.addContactNote(ContactData note)
-        {
-            throw new NotImplementedException();
-        }
-
-        string INotesService.addnote(NotesData note)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool INotesService.deletenote(string userid, string note)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<ContactData> INotesService.getContactNotes(string userid)
-        {
-            throw new NotImplementedException();
-        }
-
-        NotesData[] INotesService.GetNotes(string userid)
-        {
-            throw new NotImplementedException();
-        }
-
-        ContactData INotesService.getSingContactNote(string userid, string note)
-        {
-            throw new NotImplementedException();
-        }
-
-        string INotesService.GetSingNotes(string userid, string note)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool INotesService.updatenote(NotesData note)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }
