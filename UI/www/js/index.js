@@ -20,7 +20,7 @@ var app;
 var localDebug = true;
 var CREDENTIALS = "credentials";
 var STICKYDATA = "sticky";
-// Wait for PhoneGap to load
+
 document.addEventListener("deviceready", onDeviceReady, false);
 
 // PhoneGap is ready
