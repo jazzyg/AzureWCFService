@@ -60,10 +60,23 @@ function getStickyData()
     }
     return localStickyData;
 }
+function closeModalViewLogin() {
+    $("#modalview-login").kendoMobileModalView("close");
+    $("#modalview-register").kendoMobileModalView("close");
+}
+function closeModalViewRegister() {
+    $("#modalview-login").kendoMobileModalView("close");
+    $("#modalview-register").kendoMobileModalView("close");
+}
+
+function openModalViewLogin()
+{
+    $("#modalview-register").kendoMobileModalView("close");
+    $("#modalview-login").kendoMobileModalView("open");
+}
 
 function syncStickyData()
 {
-    debugger;
     $.ajax
     ({
         type: "GET",
@@ -81,11 +94,9 @@ function syncStickyData()
         },
         timeout: 3000, // sets timeout to 3 seconds
         success: function (result) {
-            debugger;
             window.localStorage.setItem(STICKYDATA, JSON.stringify(result));
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            debugger;
             alert(textStatus + "Error: " + errorThrown);
         }
     });
@@ -104,7 +115,7 @@ function closePipelineModalView()
 }
 
 function closeEnvModalView() {
-    $("#env-add-modalview").kendoMobileModalView("close");
+    $("#pipeline-add-modalview").kendoMobileModalView("close");
 }
 
 function logout()
@@ -284,7 +295,6 @@ var stickyDataSource = new kendo.data.DataSource({
         //     }
         // },
         update: function(options){
-            debugger;
             var localData = JSON.parse(window.localStorage[STICKYDATA]);
 
             for(var i=0; i<localData.GetNotesResult.length; i++){

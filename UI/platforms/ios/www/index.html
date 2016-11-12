@@ -42,7 +42,7 @@
 
     <ul data-role="listview">
         <li data-icon="favorites"><a href="#index" data-transition="none">Stickies</a></li>
-        <li data-icon="globe"><a href="login.html" data-transition="none">Login </a></li>
+        <li data-icon="globe"><a data-rel="modalview" href="#modalview-login" id="modalview-open-button" data-transition="none">Login </a></li>
     </ul>
 
     <!--<div data-role="footer">-->
@@ -51,6 +51,50 @@
         <!--</ul>-->
     <!--</div>-->
 </div>
+<div data-role="modalview" id="modalview-login" style="width: 90%;">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span>Login</span>
+            <a data-click="closeModalViewLogin" data-role="button" data-align="right">Cancel</a>
+        </div>
+    </div>
+
+    <ul data-role="listview" data-style="inset">
+        <li><label for="login-email">Email: <input type="text" id="login-email" /></label></li>
+        <li><label for="login-password">Password: <input type="password" id="login-password" /></label></li>
+    </ul>
+    <div data-role="footer">
+        <div data-role="navbar">
+            <a data-click="closeModalViewLogin" id="modalview-login-login-button" type="button" data-role="button" data-align="right">Login</a>
+            <a data-rel="modalview" href="#modalview-register" id="modalview-login-reg-button" type="button" data-role="button" data-align="right">Register</a>
+        </div>
+    </div>
+</div>
+
+
+
+<div data-role="modalview" id="modalview-register" style="width: 90%;">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span>Register</span>
+            <a data-click="closeModalViewRegister" data-role="button" data-align="right">Cancel</a>
+        </div>
+    </div>
+
+    <ul data-role="listview" data-style="inset">
+        <li><label for="register-email">Email: <input type="text" id="register-email" /></label></li>
+        <li><label for="register-password">Password: <input type="password" id="register-password" /></label></li>
+        <li><label for="register-password2">Confirm Password: <input type="password" id="register-password2" /></label></li>
+    </ul>
+    <div data-role="footer">
+        <div data-role="navbar">
+            <a data-click="closeModalViewRegister" id="modalview-register-reg-button" type="button" data-role="button" data-align="right">Register</a>
+            <a data-click="openModalViewLogin" id="modalview-register-register-button" type="button" data-role="button" data-align="right">Login</a>
+        </div>
+    </div>
+</div>
+
+
 
 <div data-role="layout" data-id="drawer-layout">
     <header data-role="header">
