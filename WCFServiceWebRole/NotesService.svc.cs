@@ -48,8 +48,6 @@ namespace WCFServiceWebRole
                     sr.note.Createdate = results.Createdate;
                     sr.note.Notes = results.Notes;
                     sr.note.UpdateDate = results.UpdateDate;
-
-
                 }
                 return sr;
             }
