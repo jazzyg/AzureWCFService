@@ -64,15 +64,17 @@ namespace WCFServiceWebRole
                     BodyStyle = WebMessageBodyStyle.Wrapped)]
         bool updatenote(string note);
 
+        [OperationContract(IsInitiating = true, IsTerminating = false)]
+        void login(string username, string password);
 
-
+        
         //[OperationContract]
         //string GetData(int value);
 
         //[OperationContract]
         //CompositeType GetDataUsingDataContract(CompositeType composite);
 
-       
+
     }
 
 

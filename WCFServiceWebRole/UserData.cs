@@ -6,6 +6,21 @@ using System.Web;
 
 namespace WCFServiceWebRole
 {
+
+    [DataContract]
+    public class User
+    {
+        public User()
+        {
+
+        }
+        [DataMember]
+        public string UserName { get; set; }
+        [DataMember]
+        public string UserPassword { get; set; }
+    }
+
+
     [DataContract]
     public class UserData
     {
@@ -15,45 +30,45 @@ namespace WCFServiceWebRole
         private string m_UserCell;     //user's cell phone number
         private string m_UserMail;     //user's mail
 
-        /// &lt;summary>
+        /// <summary>
         /// ID of the user
-        /// &lt;/summary>
+        /// </summary>
         [DataMember]
         public long UserID
         {
             get { return m_UserID; }
             set { m_UserID = value; }
         }
-        /// &lt;summary>
+        /// <summary>
         /// name of the user
-        /// &lt;/summary>
+        /// </summary>
         [DataMember]
         public string UserName
         {
             get { return m_UserName; }
             set { m_UserName = value; }
         }
-        /// &lt;summary>
+        /// <summary>
         /// user's password
-        /// &lt;/summary>
+        /// </summary>
         [DataMember]
         public string UserPassword
         {
             get { return m_UserPassword; }
             set { m_UserPassword = value; }
         }
-        /// &lt;summary>
+        /// <summary>
         /// user's cell phone number
-        /// &lt;/summary>
+        /// </summary>
         [DataMember]
         public string UserCell
         {
             get { return m_UserCell; }
             set { m_UserCell = value; }
         }
-        /// &lt;summary>
+        /// <summary>
         /// user's mail
-        /// &lt;/summary>
+        /// </summary>
         [DataMember]
         public string UserMail
         {

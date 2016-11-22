@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web.Script.Serialization;
+using System.Collections.Specialized;
+using System.Net;
 
 namespace WCFServiceWebRole
 {
@@ -20,7 +22,9 @@ namespace WCFServiceWebRole
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class NotesService : INotesService
     {
-    
+
+        public static List<Guid> authenticated = new List<Guid>();
+
         serverResponse INotesService.addnote(string userid, string note)
         {
 
@@ -71,12 +75,19 @@ namespace WCFServiceWebRole
        
         NotesData[] INotesService.GetNotes(string userid)
         {
-            if (userid == "") userid = "test11@test.com";
-            using (var entities = new NotesDbEntities())
+            if (Authenticate(WebOperationContext.Current.IncomingRequest))
             {
-                return entities.NotesDatas.Where(x => x.UserID == userid).ToArray();
+                if (userid == "") userid = "test11@test.com";
+                using (var entities = new NotesDbEntities())
+                {
+                    return entities.NotesDatas.Where(x => x.UserID == userid).ToArray();
+                }
             }
-
+            else
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                throw new WebFaultException<string>("Unauthorized Request.", HttpStatusCode.Unauthorized);
+            }
         }
 
         NotesData[] INotesService.GetNote(string note)
@@ -99,6 +110,101 @@ namespace WCFServiceWebRole
             }
 
         }
+
+        public void login(string username, string password)
+        {
+
+            //using (var entities = new NotesDbEntities())
+            //{
+            //    return entities.NotesDatas.Where(x => x.UserID = userid && x.GuidID = new Guid(note)).ToArray();
+            //}
+
+            if (username == "correctUsername" || password == "correctPassword")
+            {
+                // user has given correct username/pasword
+                Guid currentSessionId = new Guid(OperationContext.Current.SessionId);
+
+                // note: can throw Exception when calling login twice or more, check if item exists first
+                authenticated.Add(currentSessionId);
+            }
+
+
+        }
+
+        //private bool GetAuthenticateData()
+        //{
+        //    string consumerKey = "key";
+        //    string consumerSecret = "secret";
+        //    Uri uri = new Uri("http://term.ie/oauth/example/request_token.php");
+
+        //    OAuthBase oAuth = new OAuthBase();
+        //    string nonce = oAuth.GenerateNonce();
+        //    string timeStamp = oAuth.GenerateTimeStamp();
+        //    string sig = oAuth.GenerateSignature(uri,
+        //        consumerKey, consumerSecret,
+        //        string.Empty, string.Empty,
+        //        "GET", timeStamp, nonce,
+        //        OAuthBase.SignatureTypes.HMACSHA1);
+
+        //    sig = HttpUtility.UrlEncode(sig);
+
+        //    StringBuilder sb = new StringBuilder(uri.ToString());
+        //    sb.AppendFormat("?oauth_consumer_key ={ 0}            &", consumerKey);
+        //    sb.AppendFormat("oauth_nonce ={ 0}
+        //    &", nonce);
+        //    sb.AppendFormat("oauth_timestamp ={ 0}
+        //    &", timeStamp);
+        //    sb.AppendFormat("oauth_signature_method ={ 0}
+        //    &", "HMAC - SHA1");
+        //    sb.AppendFormat("oauth_version ={ 0}
+        //    &", "1.0");
+        //    sb.AppendFormat("oauth_signature ={ 0}", sig);
+
+        //    System.Diagnostics.Debug.WriteLine(sb.ToString());
+
+        //}
+
+        private  bool Authenticate(IncomingWebRequestContext context)
+        {
+            bool Authenticated = false;
+
+            string normalizedUrl;
+            string normalizedRequestParameters;
+
+           
+
+            //context.Headers
+            NameValueCollection pa = context.UriTemplateMatch.QueryParameters;
+
+            if (pa != null && pa["oauth_consumer_key"] != null)
+            {
+                // to get uri without oauth parameters
+                string uri = context.UriTemplateMatch.RequestUri.OriginalString.Replace
+                    (context.UriTemplateMatch.RequestUri.Query, "");
+
+                string consumersecret = "secret";
+
+                OAuthBase oauth = new OAuthBase();
+
+                string hash = oauth.GenerateSignature(
+                    new Uri(uri),
+                    pa["oauth_consumer_key"],
+                    consumersecret,
+                    null, // token
+                    null, //token secret
+                    "GET",
+                    pa["oauth_timestamp"],
+                    pa["oauth_nonce"],
+                    out normalizedUrl,
+                    out normalizedRequestParameters
+                    );
+
+                Authenticated = pa["oauth_signature"] == hash;
+            }
+
+            return Authenticated;
+        }
+
         string GetSingNotesold(string userid, string note)
         {
 
